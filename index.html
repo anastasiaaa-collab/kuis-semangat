@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MindQuest: Futuristic Adventure</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --pastel-pink: #ffdae9;
+            --pastel-blue: #b2e2f2;
+            --pastel-yellow: #fff9c4;
+            --pastel-purple: #e1bee7;
+            --neon-mint: #b2ff59;
+            --text-color: #5d4037;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        body {
+            margin: 0;
+            background-color: var(--pastel-blue);
+            background-image: radial-gradient(circle, #ffffff 1px, transparent 1px);
+            background-size: 20px 20px;
+            color: var(--text-color);
+            overflow-x: hidden;
+        }
+
+        /* Container Utama */
+        #game-container {
+            max-width: 600px;
+            margin: 20px auto;
+            background: white;
+            border: 8px solid var(--pastel-pink);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 10px 0 var(--pastel-purple);
+            position: relative;
+            min-height: 85vh;
+        }
+
+        /* Header Gaya Retro */
+        h1 {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 18px;
+            text-align: center;
+            color: #ff80ab;
+            line-height: 1.5;
+            text-shadow: 2px 2px var(--pastel-yellow);
+        }
+
+        .screen { display: none; }
+        .active { display: block; animation: fadeIn 0.5s; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Elemen Dekoratif */
+        .decor {
+            display: flex;
+            justify-content: space-around;
+            font-size: 30px;
+            margin: 10px 0;
+        }
+
+        /* Tombol ala Mario */
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border: none;
+            border-bottom: 5px solid #bbb;
+            border-radius: 15px;
+            background: var(--pastel-yellow);
+            font-weight: bold;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .btn:hover {
+            transform: scale(1.02);
+            filter: brightness(1.05);
+        }
+
+        .btn:active {
+            border-bottom-width: 0;
+            margin-top: 15px;
+            margin-bottom: 5px;
+        }
+
+        .btn-mode { background: var(--pastel-purple); color: white; }
+        .btn-play { background: var(--neon-mint); font-family: 'Press Start 2P', cursive; font-size: 14px; }
+
+        /* Kartu Pertanyaan */
+        .quiz-card {
+            background: #fdfdfd;
+            border: 3px dashed var(--pastel-blue);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            height: 15px;
+            background: #eee;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--pastel-pink);
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        textarea {
+            width: 100%;
+            height: 100px;
+            border-radius: 15px;
+            border: 2px solid var(--pastel-pink);
+            padding: 10px;
+            resize: none;
+        }
+
+        .footer-icons { text-align: center; font-size: 24px; margin-top: 20px; }
+    </style>
+</head>
+<body>
+
+<div id="game-container">
+    
+    <div class="decor">⭐ 🐱 🌸 🤖 🌟</div>
+
+    <div id="home-screen" class="screen active">
+        <h1>MINDQUEST<br>FUTURISTIC</h1>
+        <div style="text-align: center; margin: 20px 0;">
+            <img src="https://api.dicebear.com/7.x/adventurer/svg?seed=Felix&backgroundColor=b2e2f2" alt="Avatar" style="width: 80px;">
+            <img src="https://api.dicebear.com/7.x/adventurer/svg?seed=Anya&backgroundColor=ffdae9" alt="Avatar" style="width: 80px;">
+        </div>
+        <p style="text-align: center; font-size: 14px;">Selamat datang, Penjelajah! Mari kenali perasaanmu hari ini dengan cara yang menyenangkan.</p>
+        <button class="btn btn-play" onclick="showScreen('mode-screen')">MAIN SEKARANG</button>
+        <button class="btn" onclick="showScreen('info-screen')">INFO GAME</button>
+    </div>
+
+    <div id="info-screen" class="screen">
+        <h2>Tentang Game</h2>
+        <p>Game ini dirancang khusus untuk membantu pengidap ADHD dan MADD memvalidasi perasaan mereka dalam lingkungan yang tenang, bahagia, dan suportif.</p>
+        <p>Gunakan tombol navigasi yang tersedia dan jangan ragu untuk beristirahat sejenak jika merasa lelah.</p>
+        <button class="btn" onclick="showScreen('home-screen')">KEMBALI</button>
+    </div>
+
+    <div id="mode-screen" class="screen">
+        <h2>Pilih Modul Kamu</h2>
+        <button class="btn btn-mode" onclick="startQuiz('ADHD')">🧠 Mode ADHD</button>
+        <button class="btn btn-mode" onclick="startQuiz('MADD')">☁️ Mode MADD</button>
+        <button class="btn" onclick="showScreen('home-screen')">KEMBALI</button>
+    </div>
+
+    <div id="quiz-screen" class="screen">
+        <div class="progress-bar"><div id="progress-fill" class="progress-fill"></div></div>
+        <div id="question-area" class="quiz-card">
+            <h3 id="question-text">Memuat pertanyaan...</h3>
+            <div id="answer-buttons"></div>
+        </div>
+    </div>
+
+    <div id="final-screen" class="screen">
+        <h2 id="final-title">Hebat!</h2>
+        <div id="motivation-text" style="font-style: italic; margin-bottom: 20px; line-height: 1.6;"></div>
+        <div class="quiz-card">
+            <p>Bagaimana perasaanmu saat ini? Curahkan di sini (opsional):</p>
+            <textarea placeholder="Tuliskan di sini..."></textarea>
+            <button class="btn btn-play" style="margin-top: 10px;" onclick="location.reload()">SIMPAN & SELESAI</button>
+        </div>
+        <div class="footer-icons">🐱🌸⭐✨🚀</div>
+    </div>
+
+</div>
+
+<script>
+    const questionsData = {
+        'ADHD': [
+            { q: "Bagaimana rasanya fokusmu saat ini?", a: ["Seperti tv yang ganti-ganti channel", "Tenang tapi mudah teralihkan", "Sangat sulit memulai satu hal", "Pikiran sedang balapan motor"] },
+            { q: "Apa yang kamu rasakan saat harus menunggu?", a: ["Gelisah ingin segera bergerak", "Sangat membosankan sampai sakit", "Mencoba sabar tapi sulit", "Pikiranku melayang ke mana-mana"] },
+            { q: "Tentang tugas yang menumpuk hari ini...", a: ["Bingung mulai dari mana", "Memilih melakukan hal lain dulu", "Merasa kewalahan dan diam saja", "Lupa apa saja tugasnya"] },
+            { q: "Bagaimana perasaanmu di keramaian?", a: ["Suara terasa terlalu kencang", "Sangat distraksi oleh detail kecil", "Ingin cepat-cepat pulang", "Biasa saja tapi cepat lelah"] },
+            { q: "Apa yang paling kamu butuhkan sekarang?", a: ["Ketenangan tanpa suara", "Seseorang yang mengerti aku", "Mainan untuk tangan (fidgeting)", "Waktu lebih banyak"] }
+        ],
+        'MADD': [
+            { q: "Apa warna suasana hatimu hari ini?", a: ["Abu-abu mendung", "Biru yang dalam", "Campuran warna yang kacau", "Gelap tapi ada sedikit cahaya"] },
+            { q: "Bagaimana perasaan cemasmu muncul?", a: ["Deg-degan tanpa sebab jelas", "Khawatir akan hal yang belum terjadi", "Takut mengecewakan orang lain", "Sulit bernapas dengan lega"] },
+            { q: "Tentang energi tubuhmu saat ini...", a: ["Merasa sangat lelah tapi tak bisa tidur", "Berat untuk menggerakkan badan", "Gelisah tapi lemas", "Ingin tidur sepanjang hari"] },
+            { q: "Apa yang pikiranmu katakan padamu?", a: ["'Semua akan baik-baik saja' (tapi sulit percaya)", "'Kenapa ini sulit sekali?'", "'Aku ingin menghilang sejenak'", "'Ada sesuatu yang salah'"] },
+            { q: "Saat sedang sedih dan cemas, kamu merasa...", a: ["Kesepian di tengah keramaian", "Butuh pelukan tapi takut minta", "Hampa seperti ruang kosong", "Hati terasa sangat berat"] }
+        ]
+    };
+
+    let currentMode = '';
+    let currentQuestionIndex = 0;
+
+    function showScreen(screenId) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        document.getElementById(screenId).classList.add('active');
+    }
+
+    function startQuiz(mode) {
+        currentMode = mode;
+        currentQuestionIndex = 0;
+        showScreen('quiz-screen');
+        loadQuestion();
+    }
+
+    function loadQuestion() {
+        const questions = questionsData[currentMode];
+        const progress = ((currentQuestionIndex) / questions.length) * 100;
+        document.getElementById('progress-fill').style.width = progress + '%';
+
+        if (currentQuestionIndex < questions.length) {
+            const q = questions[currentQuestionIndex];
+            document.getElementById('question-text').innerText = q.q;
+            const btnArea = document.getElementById('answer-buttons');
+            btnArea.innerHTML = '';
+            
+            q.a.forEach(ans => {
+                const b = document.createElement('button');
+                b.className = 'btn';
+                b.innerText = ans;
+                b.onclick = () => {
+                    currentQuestionIndex++;
+                    loadQuestion();
+                };
+                btnArea.appendChild(b);
+            });
+        } else {
+            finishGame();
+        }
+    }
+
+    function finishGame() {
+        showScreen('final-screen');
+        const motivationText = currentMode === 'ADHD' 
+            ? "Kamu luar biasa! Pikiranmu bekerja dengan cara yang unik dan kreatif. Jangan biarkan dunia membungkam cahayamu. Kamu berhak berproses dengan kecepatanmu sendiri. ✨"
+            : "Terima kasih sudah bertahan sejauh ini. Kamu kuat, perasaanmu kuat, dan kamu tidak sendirian. Badai pasti berlalu, dan pelangi akan muncul kembali di duniamu. 🌸";
+        document.getElementById('motivation-text').innerText = motivationText;
+    }
+</script>
+
+</body>
+</html>
